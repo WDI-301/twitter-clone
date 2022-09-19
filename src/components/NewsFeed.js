@@ -8,13 +8,24 @@ const NewsFeed = (props) => {
 
   const [listOfPost, setListOfPost] = useState([]);
 
+  const onPost = () => {
+    setListOfPost([...listOfPost, { id: listOfPost.length, content: postBox }]);
+    setPostBox('');
+  };
+
+  const onDeletePost = (postIdToDelete) => () => {
+    setListOfPost(
+      listOfPost.filter(post => post.id !== postIdToDelete)
+      );
+  };
+
   return (
     <div>
       <div>
         <textarea value={postBox} onChange={(event) => setPostBox(event.target.value)}/>
       </div>
       <div>
-        <button onClick={() => setListOfPost([...listOfPost, { id: listOfPost.length, content: postBox }])} >Post</button>
+        <button onClick={onPost}>Post</button>
       </div>
       <div>
         {listOfPost.map((post, index) => (
@@ -31,7 +42,7 @@ const NewsFeed = (props) => {
             <div>
                 {post.content}
             </div>
-            <button>delete</button>
+            <button onClick={onDeletePost(post.id)}>delete</button>
           </div>
         ))}
       </div>
